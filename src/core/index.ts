@@ -12,10 +12,16 @@ function parse(tsConfigPath: string, pattern: string): FileDeclaration[] {
   // parser
   console.log(chalk.yellow("parsing source files:"));
   const declarations: FileDeclaration[] = files.map(f => {
-    const classes = f.getClasses();
-    const interfaces = f.getInterfaces();
-    const enums = f.getEnums();
+    var classes = f.getClasses();
+    
+    var interfaces = f.getInterfaces();
+    var enums = f.getEnums();
     const path = f.getFilePath();
+    f.getModules().forEach(m=>{
+      classes=classes.concat(m.getClasses())
+      interfaces=interfaces.concat(m.getInterfaces())
+      enums=enums.concat(m.getEnums())
+    })
     console.log(chalk.yellow(path));
     return {
       fileName: path,
